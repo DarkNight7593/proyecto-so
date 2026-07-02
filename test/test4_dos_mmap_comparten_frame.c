@@ -12,8 +12,11 @@ uint64_t main() {
   uint64_t* addr2;
   uint64_t* buffer;
 
-  ORIGINAL_VALUE = 7;
-  NEW_VALUE      = 99;
+  // "TwoMaps!" y "SameFrm!" codificados como uint64_t (8 bytes
+  // little-endian) para que al imprimirse con write() se vea texto
+  // legible y no simbolos raros
+  ORIGINAL_VALUE = 2410393788786636628;
+  NEW_VALUE      = 2408707022388027731;
 
   // crear archivo con un valor conocido
   fd_setup = open("test/test4_dos_mmap_comparten_frame.txt", 577, 420);
@@ -24,6 +27,8 @@ uint64_t main() {
   // un solo fd, dos mmap() distintos sobre el mismo offset
   fd = open("test/test4_dos_mmap_comparten_frame.txt", 2, 0);
   addr1 = mmap(0, 4096, 2, fd, 0);
+  write(1, addr1, 8);
+  write(1, "\n", 1);
   addr2 = mmap(0, 4096, 2, fd, 0);
 
   // escribir por addr1, leer por addr2, sin llamar msync

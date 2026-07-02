@@ -13,8 +13,11 @@ uint64_t main() {
   uint64_t  pid;
   uint64_t* status;
 
-  ORIGINAL_VALUE = 10;
-  NEW_VALUE      = 20;
+  // "ForkPre!" y "ChildWr!" codificados como uint64_t (8 bytes
+  // little-endian) para que al imprimirse con write() se vea texto
+  // legible y no simbolos raros
+  ORIGINAL_VALUE = 2406455265625009990;
+  NEW_VALUE      = 2410084839423830083;
 
   // crear archivo con un valor conocido
   fd_setup = open("test/test3_fork_comparte_frame.txt", 577, 420);
@@ -25,6 +28,8 @@ uint64_t main() {
   // mapear ANTES del fork, para que el hijo lo herede
   fd_rw = open("test/test3_fork_comparte_frame.txt", 2, 0);
   addr = mmap(0, 4096, 2, fd_rw, 0);
+  write(1, addr, 8);
+  write(1, "\n", 1);
 
   pid = fork();
 
@@ -37,6 +42,7 @@ uint64_t main() {
     status = malloc(8);
     wait(status);
     write(1, addr, 8);
+    write(1, "\n", 1);
 
     if (*addr == NEW_VALUE)
       exit(88);

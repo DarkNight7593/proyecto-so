@@ -15,8 +15,11 @@ uint64_t main() {
   uint64_t  still_original_ok;
   uint64_t  persisted_ok;
 
-  ORIGINAL_VALUE = 111222333;
-  NEW_VALUE      = 999888777;
+  // "MmapInit" y "MsyncOK!" codificados como uint64_t (8 bytes
+  // little-endian) para que al imprimirse con write() se vea texto
+  // legible y no simbolos raros
+  ORIGINAL_VALUE = 8388357042651360589;
+  NEW_VALUE      = 2399098514978730829;
 
   // crear archivo con un valor conocido
   fd_setup = open("test/test2_escritura_msync.txt", 577, 420);
@@ -31,6 +34,8 @@ uint64_t main() {
   // lo leido por CPU coincide con el archivo
   before_ok = 0;
   if (*addr == ORIGINAL_VALUE)
+    write(1, addr, 8);
+    write(1, "\n", 1);
     before_ok = 1;
 
   // escribir solo en memoria (cache frame), archivo aun no cambia

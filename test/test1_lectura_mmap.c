@@ -11,7 +11,9 @@ uint64_t main() {
   uint64_t* buffer;
   uint64_t  value;
 
-  ORIGINAL_VALUE = 123456789;
+  // "HolaOS!!" codificado como uint64_t (8 bytes little-endian) para que
+  // al imprimirse con write() se vea texto legible y no simbolos raros
+  ORIGINAL_VALUE = 2387280877885091656;
 
   // crear archivo con un valor conocido
   fd_setup = open("test/test1_lectura_mmap.txt", 577, 420);

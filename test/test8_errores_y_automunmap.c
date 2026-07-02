@@ -15,7 +15,9 @@ uint64_t main() {
   uint64_t* result;
   uint64_t  value;
 
-  ORIGINAL_VALUE = 42424242;
+  // "Selfie42" codificado como uint64_t (8 bytes little-endian) para que,
+  // si se inspecciona el archivo, se vea texto legible y no simbolos raros
+  ORIGINAL_VALUE = 3617627904049702227;
 
   // crear archivo con un valor conocido
   fd_setup = open("test/test8_errores_y_automunmap.txt", 577, 420);

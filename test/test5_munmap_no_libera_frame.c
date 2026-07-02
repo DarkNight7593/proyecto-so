@@ -12,7 +12,9 @@ uint64_t main() {
   uint64_t  pid;
   uint64_t* status;
 
-  ORIGINAL_VALUE = 5555;
+  // "NoFree!!" codificado como uint64_t (8 bytes little-endian) para que
+  // al imprimirse con write() se vea texto legible y no simbolos raros
+  ORIGINAL_VALUE = 2387300763866394446;
 
   // crear archivo con un valor conocido
   fd_setup = open("test/test5_munmap_no_libera_frame.txt", 577, 420);

@@ -18,9 +18,12 @@ uint64_t main() {
   uint64_t  ok1;
   uint64_t  ok2;
 
-  PAGE0_VALUE = 100;
-  PAGE1_VALUE = 200;
-  PAGE2_VALUE = 300;
+  // "Page0msg", "Page1msg" y "Page2msg" codificados como uint64_t (8 bytes
+  // little-endian) para que al imprimirse con write() se vea texto
+  // legible y no simbolos raros
+  PAGE0_VALUE = 7454421862855434576;
+  PAGE1_VALUE = 7454421867150401872;
+  PAGE2_VALUE = 7454421871445369168;
 
   // selfie zeroea la memoria de malloc en boot level >=1: el resto de
   // cada pagina (bytes 8..4095) queda en cero sin tocarlo a mano
@@ -47,8 +50,11 @@ uint64_t main() {
   addr2 = mmap(0, 4096, 0, fd, 8192);
 
   write(1, addr0, 8);
+  write(1, "\n", 1);
   write(1, addr1, 8);
+  write(1, "\n", 1);
   write(1, addr2, 8);
+  write(1, "\n", 1);
 
   // cada mapping debe leer la pagina que le corresponde a SU offset
   ok0 = 0;

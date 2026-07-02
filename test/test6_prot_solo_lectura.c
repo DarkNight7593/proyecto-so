@@ -11,7 +11,9 @@ uint64_t main() {
   uint64_t* buffer;
   uint64_t  value;
 
-  ORIGINAL_VALUE = 123456789;
+  // "ReadOnly" codificado como uint64_t (8 bytes little-endian) para que
+  // al imprimirse con write() se vea texto legible y no simbolos raros
+  ORIGINAL_VALUE = 8749489463339607378;
 
   // crear archivo con un valor conocido
   fd_setup = open("test/test6_prot_solo_lectura.txt", 577, 420);
@@ -27,7 +29,8 @@ uint64_t main() {
   value = *addr;
   write(1, addr, 8);
 
-  // la escritura no: dispara segmentation fault
+  // la escritura no: dispara segmentation fault (este valor nunca se
+  // llega a imprimir, asi que se deja como numero)
   *addr = 999999999;
 
   exit(1); // nunca se alcanza

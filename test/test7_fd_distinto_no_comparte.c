@@ -13,8 +13,11 @@ uint64_t main() {
   uint64_t  pid;
   uint64_t* status;
 
-  ORIGINAL_VALUE = 111111111;
-  CHILD_VALUE    = 222222222;
+  // "ParentFd" y "ChildFd!" codificados como uint64_t (8 bytes
+  // little-endian) para que al imprimirse con write() se vea texto
+  // legible y no simbolos raros
+  ORIGINAL_VALUE = 7225590669659758928;
+  CHILD_VALUE    = 2406125498052208707;
 
   // crear archivo con un valor conocido
   fd_setup = open("test/test7_fd_distinto_no_comparte.txt", 577, 420);
@@ -30,6 +33,8 @@ uint64_t main() {
     fd_own = open("test/test7_fd_distinto_no_comparte.txt", 2, 0);
     addr_own = mmap(0, 4096, 2, fd_own, 0);
     *addr_own = CHILD_VALUE;
+    write(1, addr_own, 8);
+    write(1, "\n", 1);
     exit(1);
   } else {
     // padre: abre y mapea por su cuenta tambien (otro fd)
