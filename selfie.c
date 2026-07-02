@@ -7766,7 +7766,7 @@ uint64_t copy_buffer(uint64_t* context, uint64_t vbuffer, uint64_t* buffer, uint
       // reconoce direcciones mmap ademas de data/stack/heap (M0)
       mapping = find_mapping_for_address(context, vaddr);
 
-      // #implementacion mmap: reconoce tambien direcciones dentro de un mapping mmap, ademas de data/stack/heap (C* no soporta ||, por eso if/else if)
+      // #implementacion mmap: reconoce tambien direcciones dentro de un mapping mmap, ademas de data/stack/heap
       if (is_data_stack_heap_address(context, vaddr))
         is_known_segment = 1;
       else if (mapping != (uint64_t*) 0)
