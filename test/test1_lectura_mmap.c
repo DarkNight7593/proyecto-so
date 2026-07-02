@@ -11,8 +11,7 @@ uint64_t main() {
   uint64_t* buffer;
   uint64_t  value;
 
-  // "HolaOS!!" codificado como uint64_t (8 bytes little-endian) para que
-  // al imprimirse con write() se vea texto legible y no simbolos raros
+  // "HolaOS!!" codificado como uint64_t
   ORIGINAL_VALUE = 2387280877885091656;
 
   // crear archivo con un valor conocido
