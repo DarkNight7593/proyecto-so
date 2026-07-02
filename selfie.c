@@ -1294,7 +1294,7 @@ void	emit_wait();
 void	implement_wait(uint64_t* context);
 
 // -----------------------------------------------------------------
-// #implementacion mmap/munmap/msync: declaraciones de las tres syscalls de memory mapping (Proyecto 2)
+// #implementacion mmap/munmap/msync: declaraciones de las tres syscalls
 // -----------------------------------------------------------------
 
 // #implementacion mmap: accesores get/set de las entradas 38 (mappings) y 39 (mmap_next) del contexto de proceso
@@ -1366,7 +1366,7 @@ uint64_t SYSCALL_BRK    = 214;
 uint64_t SYSCALL_FORK	= 215;
 uint64_t SYSCALL_WAIT	= 216;
 
-// #implementacion mmap: numero de syscall de mmap, siguiente libre despues de los existentes (56..401)
+// #implementacion mmap: numero de syscall de mmap
 uint64_t SYSCALL_MMAP = 402;
 
 // #implementacion munmap: numero de syscall de munmap
@@ -1375,7 +1375,7 @@ uint64_t SYSCALL_MUNMAP = 403;
 // #implementacion msync: numero de syscall de msync
 uint64_t SYSCALL_MSYNC = 404;
 
-// #implementacion mmap: direccion base (1GB) usada cuando addr=0, por encima del heap y muy por debajo del stack
+// #implementacion mmap: direccion base (1GB) 
 uint64_t MMAP_BASE = 1073741824; // = 0x40000000: C* no soporta literales hex
 
 // #implementacion mmap: valores de prot de un mapping, lectura, escritura o lectura/escritura
@@ -11802,16 +11802,16 @@ void unblock_context(uint64_t* context) {
 // #implementacion mmap: MEMORY MAPPINGS, estructura y accesores de cada entrada de context->mappings
 // -----------------------------------------------------------------
 
-// mapping entry (6 fields, ver enunciado seccion 4 paso 1)
+// mapping entry (6 fields)
 // +---+------------------+
-// | 0 | next mapping     | pointer to next mapping node (singly-linked list)
-// | 1 | virtual address  | initial virtual address of the mapped region
-// | 2 | length           | length of the mapped region in bytes (rounded up
-// |   |                  | to a multiple of PAGESIZE)
-// | 3 | prot             | protection: 0 = read, 1 = write, 2 = read/write
-// | 4 | file descriptor  | fd (local al proceso) del archivo mapeado
-// | 5 | offset           | offset, multiplo de PAGESIZE, donde empieza el
-// |   |                  | mapping dentro del archivo
+// | 0 | next mapping     | p
+// | 1 | virtual address  | 
+// | 2 | length           | 
+// |   |                  | 
+// | 3 | prot             | 
+// | 4 | file descriptor  | 
+// | 5 | offset           | 
+// |   |                  | 
 // +---+------------------+
 
 uint64_t MAPPINGENTRIES = 6;
@@ -11894,8 +11894,7 @@ uint64_t is_valid_mmap_region(uint64_t* context, uint64_t addr, uint64_t length)
 // page cache entry (4 campos)
 // +---+------------------+
 // | 0 | next entry       | siguiente entrada del cache
-// | 1 | file descriptor  | fd del host (limitacion: fd es local al proceso,
-// |   |                  | solo confiable entre procesos emparentados via fork)
+// | 1 | file descriptor  | fd del host (limitacion: fd es local al proceso, solo confiable entre procesos emparentados via fork)
 // | 2 | file page offset | offset (multiplo de PAGESIZE) de la pagina cacheada
 // | 3 | frame            | direccion fisica del cache frame con esos datos
 // +---+------------------+
