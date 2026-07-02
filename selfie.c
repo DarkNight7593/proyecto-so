@@ -1379,8 +1379,8 @@ uint64_t SYSCALL_MSYNC = 404;
 uint64_t MMAP_BASE = 1073741824; // = 0x40000000
 
 // #implementacion mmap: valores de prot
-uint64_t MMAP_PROT_READ      = 0;
-uint64_t MMAP_PROT_WRITE     = 1;
+uint64_t MMAP_PROT_READ = 0;
+uint64_t MMAP_PROT_WRITE = 1;
 uint64_t MMAP_PROT_READWRITE = 2;
 
 // #implementacion mmap: SEEK_SET para lseek, mismo valor en Linux/Mac/Windows
