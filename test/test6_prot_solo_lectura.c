@@ -11,8 +11,7 @@ uint64_t main() {
   uint64_t* buffer;
   uint64_t  value;
 
-  // "ReadOnly" codificado como uint64_t (8 bytes little-endian) para que
-  // al imprimirse con write() se vea texto legible y no simbolos raros
+  // "ReadOnly" codificado como uint64_t 
   ORIGINAL_VALUE = 8749489463339607378;
 
   // crear archivo con un valor conocido

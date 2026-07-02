@@ -15,8 +15,7 @@ uint64_t main() {
   uint64_t* result;
   uint64_t  value;
 
-  // "Selfie42" codificado como uint64_t (8 bytes little-endian) para que,
-  // si se inspecciona el archivo, se vea texto legible y no simbolos raros
+  // "Selfie42" codificado como uint64_t 
   ORIGINAL_VALUE = 3617627904049702227;
 
   // crear archivo con un valor conocido

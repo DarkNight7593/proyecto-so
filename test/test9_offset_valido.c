@@ -18,9 +18,7 @@ uint64_t main() {
   uint64_t  ok1;
   uint64_t  ok2;
 
-  // "Page0msg", "Page1msg" y "Page2msg" codificados como uint64_t (8 bytes
-  // little-endian) para que al imprimirse con write() se vea texto
-  // legible y no simbolos raros
+  // "Page0msg", "Page1msg" y "Page2msg" codificados como uint64_t 
   PAGE0_VALUE = 7454421862855434576;
   PAGE1_VALUE = 7454421867150401872;
   PAGE2_VALUE = 7454421871445369168;

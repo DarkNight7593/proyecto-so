@@ -12,9 +12,7 @@ uint64_t main() {
   uint64_t* addr2;
   uint64_t* buffer;
 
-  // "TwoMaps!" y "SameFrm!" codificados como uint64_t (8 bytes
-  // little-endian) para que al imprimirse con write() se vea texto
-  // legible y no simbolos raros
+  // "TwoMaps!" y "SameFrm!" codificados como uint64_t 
   ORIGINAL_VALUE = 2410393788786636628;
   NEW_VALUE      = 2408707022388027731;
 

@@ -12,8 +12,7 @@ uint64_t main() {
   uint64_t  pid;
   uint64_t* status;
 
-  // "NoFree!!" codificado como uint64_t (8 bytes little-endian) para que
-  // al imprimirse con write() se vea texto legible y no simbolos raros
+  // "NoFree!!" codificado como uint64_t
   ORIGINAL_VALUE = 2387300763866394446;
 
   // crear archivo con un valor conocido
