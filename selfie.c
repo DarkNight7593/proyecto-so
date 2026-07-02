@@ -1336,15 +1336,15 @@ void      set_cache_entry_offset(uint64_t* entry, uint64_t offset);
 void      set_cache_entry_frame(uint64_t* entry, uint64_t frame);
 uint64_t  get_or_load_cache_frame(uint64_t fd, uint64_t file_offset);
 
-// #implementacion mmap: emisor de codigo (compilador) y logica de ejecucion (emulador) de la syscall mmap
+// #implementacion mmap: emit e implement
 void     emit_mmap();
 void     implement_mmap(uint64_t* context);
 
-// #implementacion munmap: emisor de codigo (compilador) y logica de ejecucion (emulador) de la syscall munmap
+// #implementacion munmap: emit e implement
 void     emit_munmap();
 void     implement_munmap(uint64_t* context);
 
-// #implementacion msync: emisor de codigo (compilador) y logica de ejecucion (emulador) de la syscall msync
+// #implementacion msync: emit e implement
 void     emit_msync();
 void     implement_msync(uint64_t* context);
 
@@ -1366,19 +1366,19 @@ uint64_t SYSCALL_BRK    = 214;
 uint64_t SYSCALL_FORK	= 215;
 uint64_t SYSCALL_WAIT	= 216;
 
-// #implementacion mmap: numero de syscall de mmap
+// #implementacion mmap: syscall num
 uint64_t SYSCALL_MMAP = 402;
 
-// #implementacion munmap: numero de syscall de munmap
+// #implementacion munmap: syscall num
 uint64_t SYSCALL_MUNMAP = 403;
 
-// #implementacion msync: numero de syscall de msync
+// #implementacion msync:syscall num
 uint64_t SYSCALL_MSYNC = 404;
 
 // #implementacion mmap: direccion base (1GB) 
-uint64_t MMAP_BASE = 1073741824; // = 0x40000000: C* no soporta literales hex
+uint64_t MMAP_BASE = 1073741824; // = 0x40000000
 
-// #implementacion mmap: valores de prot de un mapping, lectura, escritura o lectura/escritura
+// #implementacion mmap: valores de prot
 uint64_t MMAP_PROT_READ      = 0;
 uint64_t MMAP_PROT_WRITE     = 1;
 uint64_t MMAP_PROT_READWRITE = 2;
@@ -6446,13 +6446,13 @@ void selfie_compile() {
   emit_wait();
   emit_open();
 
-  // #implementacion mmap: registra el wrapper de mmap junto a las demas syscalls
+  // #implementacion mmap: emit en selfie compile
   emit_mmap();
 
-  // #implementacion munmap: registra el wrapper de munmap junto a mmap
+  // #implementacion munmap: emit en selfie compile
   emit_munmap();
 
-  // #implementacion msync: registra el wrapper de msync junto a mmap/munmap
+  // #implementacion msync: emit en selfie compile
   emit_msync();
 
   emit_malloc();
@@ -8371,7 +8371,6 @@ void emit_mmap() {
 
   emit_ecall();
 
-  // jump back to caller, return value is in REG_A0
   emit_jalr(REG_ZR, REG_RA, 0);
 }
 
@@ -8420,7 +8419,6 @@ void implement_mmap(uint64_t* context) {
 
   // #implementacion mmap: valida la region (fija o resuelta via mmap_next) antes de tocar la tabla de paginas, porque set_PTE_for_page no chequea limites
   if (is_valid_mmap_region(context, addr, length) == 0) {
-    // mismo codigo de error que usan munmap/msync para "operacion invalida"
     *(get_regs(context) + REG_A0) = sign_shrink(-1, SYSCALL_BITWIDTH);
 
     set_pc(context, get_pc(context) + INSTRUCTIONSIZE);
@@ -8508,7 +8506,6 @@ void emit_munmap() {
 
   emit_ecall();
 
-  // jump back to caller, return value is in REG_A0
   emit_jalr(REG_ZR, REG_RA, 0);
 }
 
@@ -8541,7 +8538,6 @@ void implement_munmap(uint64_t* context) {
   while (mapping != (uint64_t*) 0) {
     if (get_mapping_vaddr(mapping) == addr) {
       found_mapping = mapping;
-      // C* no soporta 'break': se fuerza el fin del while poniendo mapping a 0
       mapping = (uint64_t*) 0;
     } else {
       previous_mapping = mapping;
@@ -8646,7 +8642,6 @@ void implement_msync(uint64_t* context) {
   while (mapping != (uint64_t*) 0) {
     if (get_mapping_vaddr(mapping) == addr) {
       found_mapping = mapping;
-      // C* no soporta 'break': se fuerza el fin del while poniendo mapping a 0
       mapping = (uint64_t*) 0;
     } else
       mapping = get_next_mapping(mapping);
@@ -11893,10 +11888,10 @@ uint64_t is_valid_mmap_region(uint64_t* context, uint64_t addr, uint64_t length)
 
 // page cache entry (4 campos)
 // +---+------------------+
-// | 0 | next entry       | siguiente entrada del cache
-// | 1 | file descriptor  | fd del host (limitacion: fd es local al proceso, solo confiable entre procesos emparentados via fork)
-// | 2 | file page offset | offset (multiplo de PAGESIZE) de la pagina cacheada
-// | 3 | frame            | direccion fisica del cache frame con esos datos
+// | 0 | next entry       |
+// | 1 | file descriptor  |
+// | 2 | file page offset |
+// | 3 | frame            |
 // +---+------------------+
 
 uint64_t CACHEENTRYENTRIES = 4;
@@ -12524,13 +12519,13 @@ uint64_t handle_system_call(uint64_t* context) {
     implement_fork(context);
   else if (a7 == SYSCALL_WAIT)
     implement_wait(context);
-  // #implementacion mmap: despacha la syscall mmap a implement_mmap
+  // #implementacion mmap
   else if (a7 == SYSCALL_MMAP)
     implement_mmap(context);
-  // #implementacion munmap: despacha la syscall munmap a implement_munmap
+  // #implementacion munmap
   else if (a7 == SYSCALL_MUNMAP)
     implement_munmap(context);
-  // #implementacion msync: despacha la syscall msync a implement_msync
+  // #implementacion msync
   else if (a7 == SYSCALL_MSYNC)
     implement_msync(context);
   else if (a7 == SYSCALL_EXIT) {
